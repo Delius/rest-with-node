@@ -10,6 +10,6 @@ app.get('/',function(req,res){
 });
 
 app.listen(port, function(){
-  console.log('Running on PORT: ' ,port)
+  console.log('Gulp is Running on PORT: ' ,port)
 });
 
