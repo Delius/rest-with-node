@@ -12,11 +12,28 @@ var conditionRouter = express.Router();
 
 conditionRouter.route('/Conditions')
     .get(function(req,res){
-        Condition.find(function(err,conditions){
+        var query = {};
+
+        if(req.query.author)
+        {
+            query.author = req.query.author;
+        }
+        Condition.find(query, function(err,conditions){
             if(err)
             res.status(500).send(err)
             else
             res.json(conditions);
+        });
+    });
+
+conditionRouter.route('/Conditions/:conditionID')
+    .get(function(req,res){
+
+        Condition.findDyId(req.params.conditionID, function(err,condition){
+            if(err)
+                res.status(500).send(err)
+            else
+                res.json(condition);
         });
     });
 
