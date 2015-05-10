@@ -28,7 +28,8 @@ var routes = function(Condition){
                 else
                     res.json(conditions);
             });
-        });
+        })
+        ;
 
     conditionRouter.route('/:conditionID')
         .get(function(req,res){
@@ -37,6 +38,19 @@ var routes = function(Condition){
                 if(err)
                     res.status(500).send(err)
                 else
+                    res.json(condition);
+            });
+        })
+        .put(function(req,res) {
+
+            Condition.findById(req.params.conditionID, function (err, condition) {
+                if (err)
+                    res.status(500).send(err)
+                else
+                    condition.name = req.body.name;
+                    condition.author = req.body.author;
+                    condition.filled = req.body.filled;
+                    condition.save();
                     res.json(condition);
             });
         });
