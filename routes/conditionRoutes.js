@@ -6,29 +6,11 @@ var express = require('express');
 var routes = function(Condition){
     var conditionRouter = express.Router();
 
+
+    var conditionController = require('../controllers/conditionController')(Condition)
     conditionRouter.route('/')
-        .post(function(req,res){
-            var condition  = new Condition(req.body);
-
-
-            condition.save();
-            res.status(201).send(condition);
-
-        })
-        .get(function(req,res){
-            var query = {};
-
-            if(req.query.author)
-            {
-                query.author = req.query.author;
-            }
-            Condition.find(query, function(err,conditions){
-                if(err)
-                    res.status(500).send(err);
-                else
-                    res.json(conditions);
-            });
-        });
+        .post(conditionController.post)
+        .get(conditionController.get);
 
     conditionRouter.use('/:conditionID', function(req,res,next){
         Condition.findById(req.params.conditionID, function(err,condition){
@@ -79,6 +61,15 @@ var routes = function(Condition){
                 else {
                     res.json(req.condition)
                 }
+            });
+        })
+        .delete(function(req,res){
+            req.condition.remove(function(err){
+               if(err)
+                   res.status(500).send(err);
+               else
+               res.status(204).send('removed')
+
             });
         });
     return conditionRouter;
