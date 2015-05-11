@@ -24,34 +24,61 @@ var routes = function(Condition){
             }
             Condition.find(query, function(err,conditions){
                 if(err)
-                    res.status(500).send(err)
+                    res.status(500).send(err);
                 else
                     res.json(conditions);
             });
-        })
-        ;
+        });
+
+    conditionRouter.use('/:conditionID', function(req,res,next){
+        Condition.findById(req.params.conditionID, function(err,condition){
+            if(err)
+                res.status(500).send(err);
+            else if(condition)
+            {
+                req.condition = condition;
+                next();
+            }
+            else
+            {
+                res.status(404).send('no condition found');
+            }
+        });
+    });
 
     conditionRouter.route('/:conditionID')
         .get(function(req,res){
 
-            Condition.findById(req.params.conditionID, function(err,condition){
-                if(err)
-                    res.status(500).send(err)
-                else
-                    res.json(condition);
-            });
+            res.json(req.condition);
+
         })
         .put(function(req,res) {
+            req.condition.name = req.body.name;
+            req.condition.author = req.body.author;
+            req.condition.filled = req.body.filled;
+            req.condition.save(function(err){
+                if(err)
+                    res.status(500).send(err);
+                else {
+                    res.json(req.condition)
+                }
+            });
+        })
+        .patch(function(req,res){
+            if(req.body._id)
+                delete req.body._id;
 
-            Condition.findById(req.params.conditionID, function (err, condition) {
-                if (err)
-                    res.status(500).send(err)
-                else
-                    condition.name = req.body.name;
-                    condition.author = req.body.author;
-                    condition.filled = req.body.filled;
-                    condition.save();
-                    res.json(condition);
+            for(var p in req.body)
+            {
+                req.condition[p] = req.body[p];
+            }
+
+            req.condition.save(function(err){
+                if(err)
+                res.status(500).send(err);
+                else {
+                    res.json(req.condition)
+                }
             });
         });
     return conditionRouter;
