@@ -1,5 +1,9 @@
 # Node.js and Express
-
+This is my warm up into building Restful api with javascript and node.js where I explore
+- what is ReST?
+- how to GET POST UPDATE DELETE the data
+- how to write Unit Tests and Integration Tests
+ 
 ##ReST -Representational State Transfer
 ReST is a software architecture style, a simpler alternative to SOAP and WSDL.
 It is coordinated set of constraints like:
@@ -13,7 +17,7 @@ It is coordinated set of constraints like:
   3. each message includes enough information to describe how to process the message
   4. hyperlinks within hypertext
   
-  ####RESTful API
+  ####RESTful API definition
   - has a base URI
   - has an Internet media type such as JSON
   - has GET PUT POST PATCH DELETE
