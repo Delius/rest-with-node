@@ -4,7 +4,7 @@
 
 
 ###Setup
- *node.js
- *express
- *Mongodb
- *Mocha and Sinon.js
+ - Node.js
+ - Express
+ - Mongodb
+ - Mocha and Sinon.js
